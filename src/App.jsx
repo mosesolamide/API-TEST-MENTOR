@@ -4,6 +4,19 @@ import "./index.css"
 
 function App() {
   const [data, setData] = useState([])
+  const [firstValue, setFirstValue] = useState(0)
+  const [secondValue, setSecondValue] = useState(10)
+
+  const next = () =>{
+    setFirstValue( prev => prev + 10)
+    setSecondValue( prev => prev + 10)
+  }
+
+  const back = () => {
+    setFirstValue( prev => prev - 10)
+    setSecondValue( prev => prev - 10)
+  }
+
 
     useEffect( () =>{
       const renderData = async () => {
@@ -27,30 +40,47 @@ function App() {
           currencySymbol={currency ? currency.symbol : "N/A"}
           flag={country.flags.png}
           status={country.status}
-          key={index}
-
+          index={index}
       />
     })
 
 
   return (
-    <table className='w-full'>
-        <thead>
-            <tr className='border text-[8px]'>
-                <th>Country:</th>
-                <th>Capital:</th>
-                <th>Flag:</th>
-                <th>Status:</th>
-                <th>Region:</th>
-                <th>Official:</th>
-                <th>Currency Symbol:</th>
-                <th>Currency Name:</th>
-            </tr>
-        </thead>
-        <tbody className="text-[8px] text-center">
-          {body}
-        </tbody>
-    </table>
+    <div className='w-[650px] mx-auto'>
+      <h1 className='text-center my-2 font-bold'>Table of Countries</h1>
+        <table className='w-full '>
+            <thead>
+                <tr className='border text-[8px] md:text-[11px] font-bold'>
+                    <th>S/N</th>
+                    <th>Country</th>
+                    <th>Capital</th>
+                    <th>Flag</th>
+                    <th>Status</th>
+                    <th>Region</th>
+                    <th>Official</th>
+                    <th>Currency Symbol</th>
+                    <th>Currency Name</th>
+                </tr>
+            </thead>
+            <tbody className="text-[8px] text-center">
+              {body.slice(firstValue,secondValue)}
+            </tbody>
+        </table>
+        <div className='flex gap-2 justify-around mt-2'>
+            <button 
+              className='border-1 px-3 py-1'
+              onClick={back}
+            >
+              Previous
+              </button>
+            <button 
+              className='border-1 px-3 py-1'
+              onClick={next}
+            >
+              Next
+              </button>
+        </div>
+    </div>
   )
 }
 
