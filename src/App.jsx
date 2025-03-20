@@ -7,28 +7,38 @@ function App() {
   const [firstValue, setFirstValue] = useState(0)
   const [secondValue, setSecondValue] = useState(10)
 
-  const next = () =>{
-    setFirstValue( prev => prev + 10)
-    setSecondValue( prev => prev + 10)
-  }
-
-  const back = () => {
-    setFirstValue( prev => prev - 10)
-    setSecondValue( prev => prev - 10)
-  }
-
-
-    useEffect( () =>{
-      const renderData = async () => {
+  useEffect( () =>{
+    const renderData = async () => {
+      try{
         const res = await fetch("https://restcountries.com/v3.1/all")
         const data = await res.json()
         setData(data)
-        // console.log(data[0])
+      }catch(err){
+          console.error(`Your error fetching data is  ${err}`)
       }
-      renderData()
-    },[])
+    }
+    renderData()
+  },[])
 
-    const body = data.map( (country,index) => {
+  const next = () =>{
+    if(secondValue < data.length){
+      setFirstValue( prev => prev + 10)
+      setSecondValue( prev => prev + 10)
+    }
+  }
+
+  const back = () => {
+    if(firstValue > 0 ){
+      setFirstValue( prev => prev - 10)
+      setSecondValue( prev => prev - 10)
+    }
+  }
+
+
+
+    const currentData = data.slice(firstValue, secondValue)
+
+    const body = currentData.map( (country,index) => {
       const currency = country.currencies ? Object.values(country.currencies)[0] : null
 
       return <Body 
@@ -40,7 +50,8 @@ function App() {
           currencySymbol={currency ? currency.symbol : "N/A"}
           flag={country.flags.png}
           status={country.status}
-          index={index}
+          index={firstValue + index + 1}
+          key={index}
       />
     })
 
@@ -63,18 +74,18 @@ function App() {
                 </tr>
             </thead>
             <tbody className="text-[8px] text-center">
-              {body.slice(firstValue,secondValue)}
+              {body}
             </tbody>
         </table>
         <div className='flex gap-2 justify-around mt-2'>
             <button 
-              className='border-1 px-3 py-1'
+              className={`border-1 px-3 py-1 ${firstValue === 0? "cursor-not-allowed opacity-50": ''}`}
               onClick={back}
             >
               Previous
               </button>
             <button 
-              className='border-1 px-3 py-1'
+              className={`border-1 px-3 py-1 ${secondValue >= data.length? "cursor-not-allowed opacity-50":'' }`}
               onClick={next}
             >
               Next
