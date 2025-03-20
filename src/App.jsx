@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import Body from './Body'
 import "./index.css"
+import Pagination from './Pagination'
 
 function App() {
   const [data, setData] = useState([])
-  const [firstValue, setFirstValue] = useState(0)
-  const [secondValue, setSecondValue] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage, setPostsPerPage] = useState(10)
 
   useEffect( () =>{
     const renderData = async () => {
@@ -20,23 +21,24 @@ function App() {
     renderData()
   },[])
 
-  const next = () =>{
-    if(secondValue < data.length){
-      setFirstValue( prev => prev + 10)
-      setSecondValue( prev => prev + 10)
-    }
-  }
+  const lastPostIndex = currentPage * postsPerPage /// 1 * 10 = 10
+  const firstPostIndex = lastPostIndex - postsPerPage // 10 - 10 = 0
+  const currentData = data.slice(firstPostIndex,lastPostIndex)
 
-  const back = () => {
-    if(firstValue > 0 ){
-      setFirstValue( prev => prev - 10)
-      setSecondValue( prev => prev - 10)
-    }
-  }
+  // const next = () =>{
+  //   if(secondValue < data.length){
+  //     setFirstValue( prev => prev + 10)
+  //     setSecondValue( prev => prev + 10)
+  //   }
+  // }
 
+  // const back = () => {
+  //   if(firstValue > 0 ){
+  //     setFirstValue( prev => prev - 10)
+  //     setSecondValue( prev => prev - 10)
+  //   }
+  // }
 
-
-    const currentData = data.slice(firstValue, secondValue)
 
     const body = currentData.map( (country,index) => {
       const currency = country.currencies ? Object.values(country.currencies)[0] : null
@@ -50,47 +52,34 @@ function App() {
           currencySymbol={currency ? currency.symbol : "N/A"}
           flag={country.flags.png}
           status={country.status}
-          index={firstValue + index + 1}
+          index={firstPostIndex + index + 1}
           key={index}
       />
     })
 
 
   return (
-    <div className='w-[650px] mx-auto'>
-      <h1 className='text-center my-2 font-bold'>Table of Countries</h1>
-        <table className='w-full '>
-            <thead>
-                <tr className='border text-[8px] md:text-[11px] font-bold'>
-                    <th>S/N</th>
-                    <th>Country</th>
-                    <th>Capital</th>
-                    <th>Flag</th>
-                    <th>Status</th>
-                    <th>Region</th>
-                    <th>Official</th>
-                    <th>Currency Symbol</th>
-                    <th>Currency Name</th>
-                </tr>
-            </thead>
-            <tbody className="text-[8px] text-center">
-              {body}
-            </tbody>
-        </table>
-        <div className='flex gap-2 justify-around mt-2'>
-            <button 
-              className={`border-1 px-3 py-1 ${firstValue === 0? "cursor-not-allowed opacity-50": ''}`}
-              onClick={back}
-            >
-              Previous
-              </button>
-            <button 
-              className={`border-1 px-3 py-1 ${secondValue >= data.length? "cursor-not-allowed opacity-50":'' }`}
-              onClick={next}
-            >
-              Next
-              </button>
-        </div>
+    <div className='w-[800px]'>
+      <h1></h1>
+    <div className=''>
+      <ul className='grid grid-cols-9 gap-2 text-[8px] md:text-[10px] font-medium text-white w-full bg-sky-500 rounded-[2px] px-4 py-2 mb-2'>
+          <li className='text-center'>S/N</li>
+          <li className='text-center'>Country</li>
+          <li className='text-center'>Capital</li>
+          <li className='text-center'>Flag</li>
+          <li className='text-center'>Status</li>
+          <li className='text-center'>Region</li>
+          <li className='text-center'>Official</li>
+          <li className='text-center'>Currency Symbol</li>
+          <li className='text-center'>Currency Name</li>
+      </ul>    
+      {body}
+    </div>
+    <Pagination
+      totalPosts={data.length}
+      postsPerPage={postsPerPage}
+      setCurrentPage={setCurrentPage}
+    />
     </div>
   )
 }
