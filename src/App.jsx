@@ -5,8 +5,8 @@ import Pagination from './Pagination'
 
 function App() {
   const [data, setData] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(10)
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
 
   useEffect( () =>{
     const renderData = async () => {
@@ -21,8 +21,8 @@ function App() {
     renderData()
   },[])
 
-  const lastPostIndex = currentPage * postsPerPage /// 1 * 10 = 10
-  const firstPostIndex = lastPostIndex - postsPerPage // 10 - 10 = 0
+  const lastPostIndex = page * limit /// 1 * 10 = 10
+  const firstPostIndex = lastPostIndex - limit // 10 - 10 = 0
   const currentData = data.slice(firstPostIndex,lastPostIndex)
 
   // const next = () =>{
@@ -75,11 +75,12 @@ function App() {
       </ul>    
       {body}
     </div>
-    <Pagination
-      totalPosts={data.length}
-      postsPerPage={postsPerPage}
-      setCurrentPage={setCurrentPage}
-    />
+          <Pagination
+          totalPosts={data.length}
+          limit={limit}
+          setPage={setPage}
+          currentPage={page}  // Add this line
+      />
     </div>
   )
 }
