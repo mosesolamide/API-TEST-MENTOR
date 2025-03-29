@@ -62,7 +62,7 @@ function App() {
     <div className='min-w-[400px]'>
       <h1></h1>
     <div className=''>
-      <ul className='grid grid-cols-9 md:gap-2 text-[5px] md:text-[10px]  text-white w-full bg-sky-500 rounded-[2px] px-4 py-2 mb-2'>
+      <ul className='grid grid-cols-9 md:gap-2 text-[5.8px] md:text-[10px] text-white w-full bg-sky-500 rounded-[2px] px-4 py-2 mb-2'>
           <li className='text-center'>S/N</li>
           <li className='text-center'>Country</li>
           <li className='text-center'>Capital</li>
