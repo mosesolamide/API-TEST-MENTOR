@@ -33,6 +33,7 @@ function App() {
       setData(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error(err)
+      setError(err.message)
       setData([])
     } finally {
       setIsLoading(false)
@@ -59,7 +60,7 @@ function App() {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className='flex justify-center items-center h-[50vh]'>
+        <div className='flex justify-center items-center h-[50vh] gap-2'>
           <span className='w-[35px] h-[35px] border-[5px] border-black border-solid border-b-transparent rounded-[50%] inline-block box-border animate-spin'></span> <br />
           <p className='text-2xl'>Loading countries...</p>
         </div>
@@ -98,12 +99,12 @@ function App() {
   return (
     <div className='min-w-[400px]'>
       <div className='flex justify-center gap-2 items-center'>
-        <label htmlFor="">Search By: </label>
+        <label>Search By: </label>
         <input 
           type="search" 
           placeholder='Country name' 
           id='searchByCountry' 
-          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[200px] text-sm' 
+          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm' 
           onChange={search}
           value={searchByCountry}
         />
@@ -112,7 +113,7 @@ function App() {
           type="search"
           placeholder='Capital'
           id='searchByCapital'
-          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[200px] text-sm'
+          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm'
           onChange={searchByCapitals}
           value={searchByCapital}
         />
