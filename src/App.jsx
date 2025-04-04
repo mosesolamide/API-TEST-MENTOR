@@ -104,18 +104,20 @@ function App() {
           type="search" 
           placeholder='Country name' 
           id='searchByCountry' 
-          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm' 
+          className={`border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm ${searchByCapital? "cursor-not-allowed border-none" : ""}`} 
           onChange={search}
           value={searchByCountry}
+          disabled={searchByCapital}
         />
 
         <input 
           type="search"
           placeholder='Capital'
           id='searchByCapital'
-          className='border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm'
+          className={`border indent-[2px] px-2 py-1 rounded-[2px] border-sky-500 my-2 w-[130px] text-sm ${searchByCountry? "cursor-not-allowed border-none" : ""}`}
           onChange={searchByCapitals}
           value={searchByCapital}
+          disabled={searchByCountry}
         />
       </div>
 
